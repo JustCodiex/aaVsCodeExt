@@ -1,18 +1,22 @@
 {
-	"name": "Å",
+	"name": "AA",
 	"displayName": "AA Programming Language Extension",
 	"description": "This is a description",
 	"version": "1.0.0",
 	"publisher": "JustCoDiEx",
+	"repository": "https://github.com/JustCodiex/aaVsCodeExt",
+	"engines": {
+		"vscode": "^1.34.0"
+	},
 	"contributes": {
 		"languages": [{
-			"id": "Å",
+			"id": "AA",
 			"extensions": [ ".aa" ],
-			"aliases": [ "Å", "aa" ],
+			"aliases": [ "AA", "aa" ],
 			"configuration": "./language-configuration.json"
 		}],
 		"grammars": [{
-			"language": "Å",
+			"language": "AA",
 			"scopeName": "source.aa",
 			"path": "./syntaxes/aa.tmLanguage.json"
 		}]
