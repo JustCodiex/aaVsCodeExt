@@ -1,0 +1,20 @@
+{
+	"name": "Å",
+	"displayName": "AA Programming Language Extension",
+	"description": "This is a description",
+	"version": "1.0.0",
+	"publisher": "JustCoDiEx",
+	"contributes": {
+		"languages": [{
+			"id": "Å",
+			"extensions": [ ".aa" ],
+			"aliases": [ "Å", "aa" ],
+			"configuration": "./language-configuration.json"
+		}],
+		"grammars": [{
+			"language": "Å",
+			"scopeName": "source.aa",
+			"path": "./syntaxes/aa.tmLanguage.json"
+		}]
+	}
+}
