@@ -1,0 +1,33 @@
+{
+    "scopeName": "source.aa",
+    "patterns": [{ "include": "#expression" }],
+    "repository": {
+      "expression": {
+        "patterns": [
+          { "include": "#word" }, 
+          { "include": "#keyword" }, 
+          { "include": "#paren-expression" }
+        ]
+      },
+      "word": {
+        "match": "class",
+        "name": "keyword.word"
+      },
+      "keyword": {
+        "match": "new",
+        "name": "keyword.word"
+      },
+      "paren-expression": {
+        "begin": "\\(",
+        "end": "\\)",
+        "beginCaptures": {
+          "0": { "name": "punctuation.paren.open" }
+        },
+        "endCaptures": {
+          "0": { "name": "punctuation.paren.close" }
+        },
+        "name": "expression.group",
+        "patterns": [{ "include": "#expression" }]
+      }
+    }
+}
