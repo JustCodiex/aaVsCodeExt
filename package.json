@@ -1,7 +1,7 @@
 {
-	"name": "AA",
-	"displayName": "AA Programming Language Extension",
-	"description": "This is a description",
+	"name": "Å",
+	"displayName": "Å Programming Language Extension",
+	"description": "Syntax highlighter for Å",
 	"version": "1.0.0",
 	"publisher": "JustCoDiEx",
 	"repository": "https://github.com/JustCodiex/aaVsCodeExt",
@@ -10,13 +10,13 @@
 	},
 	"contributes": {
 		"languages": [{
-			"id": "AA",
+			"id": "Å",
 			"extensions": [ ".aa" ],
-			"aliases": [ "AA", "aa" ],
+			"aliases": [ "Å", "AA", "aa" ],
 			"configuration": "./language-configuration.json"
 		}],
 		"grammars": [{
-			"language": "AA",
+			"language": "Å",
 			"scopeName": "source.aa",
 			"path": "./syntaxes/aa.tmLanguage.json"
 		}]

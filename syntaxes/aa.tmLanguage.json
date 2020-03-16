@@ -1,13 +1,18 @@
 {
     "scopeName": "source.aa",
-    "patterns": [{ "include": "#expression" }],
+    "patterns": [ { "include": "#single-line-comment" }, {  "include": "#expression" }],
     "repository": {
       "expression": {
         "patterns": [
+          { "include": "#number" },
           { "include": "#word" }, 
-          { "include": "#keyword" }, 
+          { "include": "#keyword" },
           { "include": "#paren-expression" }
         ]
+      },
+      "number": {
+        "match": "[0-9]",
+        "name": "constant.numeric"
       },
       "word": {
         "match": "class",
@@ -28,6 +33,11 @@
         },
         "name": "expression.group",
         "patterns": [{ "include": "#expression" }]
+      },
+      "single-line-comment": {
+        "begin": "//",
+        "end": "\n",
+        "name": "comment"
       }
     }
 }
