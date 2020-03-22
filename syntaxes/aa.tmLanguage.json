@@ -5,22 +5,28 @@
       "expression": {
         "patterns": [
           { "include": "#number" },
-          { "include": "#word" }, 
-          { "include": "#keyword" },
-          { "include": "#paren-expression" }
+          { "include": "#keywords" },
+          { "include": "#primitivetype" },
+          { "include": "#builtinfunctions" },
+          { "include": "#paren-expression" },
+          { "include": "#single-line-string"}
         ]
       },
       "number": {
         "match": "[0-9]",
         "name": "constant.numeric"
       },
-      "word": {
-        "match": "class",
+      "keywords": {
+        "match": "new|class|this",
         "name": "keyword.word"
       },
-      "keyword": {
-        "match": "new",
-        "name": "keyword.word"
+      "primitivetype": {
+        "match": "int |string |char |bool |float |double |long |short |void |Any ",
+        "name": "keyword.operator.typeid"
+      },
+      "builtinfunctions": {
+        "match": "println",
+        "name": "keyword.other.unit"
       },
       "paren-expression": {
         "begin": "\\(",
@@ -38,6 +44,11 @@
         "begin": "//",
         "end": "\n",
         "name": "comment"
+      },
+      "single-line-string": {
+        "begin": "\"",
+        "end": "\"",
+        "name": "string.value"
       }
     }
 }
