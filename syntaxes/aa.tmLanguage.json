@@ -17,7 +17,7 @@
         "name": "constant.numeric"
       },
       "keywords": {
-        "match": "new|class|this",
+        "match": "new |class |namespace |import |from ",
         "name": "keyword.word"
       },
       "primitivetype": {
@@ -26,7 +26,7 @@
       },
       "builtinfunctions": {
         "match": "println",
-        "name": "keyword.other.unit"
+        "name": "entity.name.function"
       },
       "paren-expression": {
         "begin": "\\(",
