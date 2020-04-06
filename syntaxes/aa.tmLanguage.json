@@ -1,7 +1,24 @@
 {
+    "name": "Å",
     "scopeName": "source.aa",
-    "patterns": [ { "include": "#single-line-comment" }, {  "include": "#expression" }],
+    "patterns": [
+      { "include": "#pre-processing" },
+      { "include": "#comment" },
+      { "include": "#declerations" },
+      { "include": "#directives" },
+      { "include": "#expression" }
+    ],
     "repository": {
+      "declerations": {
+        "patterns": [
+          { "include": "#namespace-decleration" }
+        ]
+      },
+      "directives": {
+        "patterns": [
+          { "include": "#using-directive" }
+        ]
+      },
       "expression": {
         "patterns": [
           { "include": "#number" },
@@ -17,7 +34,7 @@
         "name": "constant.numeric"
       },
       "keywords": {
-        "match": "new |class |namespace |import |from ",
+        "match": "new |class ",
         "name": "keyword.word"
       },
       "primitivetype": {
@@ -28,19 +45,7 @@
         "match": "println",
         "name": "entity.name.function"
       },
-      "paren-expression": {
-        "begin": "\\(",
-        "end": "\\)",
-        "beginCaptures": {
-          "0": { "name": "punctuation.paren.open" }
-        },
-        "endCaptures": {
-          "0": { "name": "punctuation.paren.close" }
-        },
-        "name": "expression.group",
-        "patterns": [{ "include": "#expression" }]
-      },
-      "single-line-comment": {
+      "comment": {
         "begin": "//",
         "end": "\n",
         "name": "comment"
@@ -49,6 +54,71 @@
         "begin": "\"",
         "end": "\"",
         "name": "string.value"
+      },
+      "using-directive": {
+        "patterns": [
+          {
+            "begin": "\\b(using)\\s+\\S+\\s+(from)\\s+",
+            "beginCaptures": {
+              "1": {
+                "name": "keyword.other.using"
+              },
+              "2": {
+                "name": "keyword.other.using"
+              }
+            },
+            "end": "(?=;)",
+            "patterns": [
+              {
+                "include": "#comment"
+              },
+              {
+                "name": "entity.name.type",
+                "match": "@?[_[:alpha:]][_[:alnum:]]*"
+              }
+            ]
+          }
+        ]
+      },
+      "namespace-decleration": {
+        "begin": "\\b(namespace)\\s+",
+        "beginCaptures": {
+          "1": {
+            "name": "keyword.word"
+          }
+        },
+        "end": "(?<=\\})",
+        "patterns": [
+          {
+            "include": "#comment"
+          },
+          {
+            "name": "entity.name.type",
+            "match": "@?[_[:alpha:]][_[:alnum:]]*"
+          },
+          {
+            "begin": "\\{",
+            "beginCaptures": {
+              "0": {
+                "name": "punctuation.curlybrace.open.cs"
+              }
+            },
+            "end": "\\}",
+            "endCaptures": {
+              "0": {
+                "name": "punctuation.curlybrace.close.cs"
+              }
+            },
+            "patterns": [
+              {
+                "include": "#declarations"
+              },
+              {
+                "include": "#expression"
+              }
+            ]
+          }
+        ]
       }
     }
 }
