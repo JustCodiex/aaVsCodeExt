@@ -11,7 +11,12 @@
     "repository": {
       "declerations": {
         "patterns": [
-          { "include": "#namespace-decleration" }
+          { "include": "#namespace-decleration" },
+          { "include": "#class-decleration" }
+        ]
+      },
+      "class-members": {
+        "patterns": [
         ]
       },
       "directives": {
@@ -34,7 +39,7 @@
         "name": "constant.numeric"
       },
       "keywords": {
-        "match": "new |class ",
+        "match": "new ",
         "name": "keyword.word"
       },
       "primitivetype": {
@@ -64,6 +69,24 @@
                 "name": "keyword.other.using"
               },
               "2": {
+                "name": "keyword.other.using"
+              }
+            },
+            "end": "(?=;)",
+            "patterns": [
+              {
+                "include": "#comment"
+              },
+              {
+                "name": "entity.name.type",
+                "match": "@?[_[:alpha:]][_[:alnum:]]*"
+              }
+            ]
+          },
+          {
+            "begin": "\\b(using)\\s+",
+            "beginCaptures": {
+              "1": {
                 "name": "keyword.other.using"
               }
             },
@@ -111,12 +134,62 @@
             },
             "patterns": [
               {
-                "include": "#declarations"
+                "include": "#declerations"
               },
               {
                 "include": "#expression"
               }
             ]
+          }
+        ]
+      },
+      "class-decleration": {
+        "begin": "(?=\\bclass\\b)",
+        "beginCaptures": {
+          "1": {
+            "name": "keyword.word"
+          }
+        },
+        "end": "(?<=\\})",
+        "patterns": [
+          {
+            "begin": "(?x)\n\\b(class)\\b\\s+\n(@?[_[:alpha:]][_[:alnum:]]*)\\s*",
+            "beginCaptures": {
+              "1": {
+                "name": "keyword.other.class.cs"
+              },
+              "2": {
+                "name": "entity.name.type.class.cs"
+              }
+            },
+            "end": "(?=\\{)",
+            "patterns": [
+              {
+                "include": "#comment"
+              }
+            ]
+          },
+          {
+            "begin": "\\{",
+            "beginCaptures": {
+              "0": {
+                "name": "punctuation.curlybrace.open.cs"
+              }
+            },
+            "end": "\\}",
+            "endCaptures": {
+              "0": {
+                "name": "punctuation.curlybrace.close.cs"
+              }
+            },
+            "patterns": [
+              {
+                "include": "#class-members"
+              }
+            ]
+          },
+          {
+            "include": "#comment"
           }
         ]
       }
