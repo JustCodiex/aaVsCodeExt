@@ -5,18 +5,21 @@
       { "include": "#pre-processing" },
       { "include": "#comment" },
       { "include": "#declerations" },
-      { "include": "#directives" },
-      { "include": "#expression" }
+      { "include": "#directives" }
     ],
     "repository": {
       "declerations": {
         "patterns": [
           { "include": "#namespace-decleration" },
-          { "include": "#class-decleration" }
+          { "include": "#class-decleration" },
+          { "include": "#function-decleration" }
         ]
       },
       "class-members": {
         "patterns": [
+          { "include": "#class-decleration" },
+          { "include": "#function-decleration" },
+          { "include": "#constructor-decleration" }
         ]
       },
       "directives": {
@@ -24,41 +27,22 @@
           { "include": "#using-directive" }
         ]
       },
-      "expression": {
+      "statement": {
         "patterns": [
-          { "include": "#number" },
-          { "include": "#keywords" },
-          { "include": "#primitivetype" },
-          { "include": "#builtinfunctions" },
-          { "include": "#paren-expression" },
-          { "include": "#single-line-string"}
+          { "include": "#if-statement" },
+          { "include": "#for-statement" },
+          { "include": "#while-statement" },
+          { "include": "#new-statement" }
         ]
       },
-      "number": {
-        "match": "[0-9]",
-        "name": "constant.numeric"
-      },
-      "keywords": {
-        "match": "new ",
-        "name": "keyword.word"
-      },
-      "primitivetype": {
-        "match": "int |string |char |bool |float |double |long |short |void |Any ",
-        "name": "keyword.operator.typeid"
-      },
-      "builtinfunctions": {
-        "match": "println",
-        "name": "entity.name.function"
+      "expression": {
+        "patterns": [
+        ]
       },
       "comment": {
         "begin": "//",
         "end": "\n",
         "name": "comment"
-      },
-      "single-line-string": {
-        "begin": "\"",
-        "end": "\"",
-        "name": "string.value"
       },
       "using-directive": {
         "patterns": [
@@ -192,6 +176,58 @@
             "include": "#comment"
           }
         ]
+      },
+      "function-decleration": {
+        "begin": "(?x)\n(?<return-type>\n  (?<type-name>\n(?:\n      (?:ref\\s+(?:readonly\\s+)?)?   # ref return\n      (?:\n        (?:(?<identifier>@?[_[:alpha:]][_[:alnum:]]*)\\s*\\:\\:\\s*)? # alias-qualification\n        (?<name-and-type-args> # identifier + type arguments (if any)\n          \\g<identifier>\\s*\n          (?<type-args>\\s*<(?:[^<>]|\\g<type-args>)+>\\s*)?\n        )\n        (?:\\s*\\.\\s*\\g<name-and-type-args>)* | # Are there any more names being dotted into?\n        (?<tuple>\\s*\\((?:[^\\(\\)]|\\g<tuple>)+\\))\n      )\n      (?:\\s*\\?\\s*)? # nullable suffix?\n      (?:\\s*\\[(?:\\s*,\\s*)*\\]\\s*)* # array suffix?\n    )\n  )\\s+\n)\n(?<interface-name>\\g<type-name>\\s*\\.\\s*)?\n(\\g<identifier>)\\s*\n(<([^<>]+)>)?\\s*\n(?=\\()",
+        "beginCaptures": {
+          "1": {
+            "patterns": [
+              {
+                "include": "#type"
+              }
+            ]
+          },
+          "8": {
+            "name": "entity.name.function.cs"
+          }
+        },
+        "end": "(?<=\\})|(?=;)",
+        "patterns": [
+          {
+            "include": "#comment"
+          },
+          {
+            "include": "#parenthesized-parameter-list"
+          },
+          {
+            "include": "#generic-constraints"
+          },
+          {
+            "include": "#expression-body"
+          },
+          {
+            "include": "#block"
+          }
+        ]
+      },
+      "type": {
+        "name": "meta.type.cs",
+        "patterns": [
+          {
+            "include": "#comment"
+          },
+          {
+            "include": "#type-builtin"
+          }
+        ]
+      },
+      "type-builtin": {
+        "match": "\\b(bool|char|double|float|int|string|void)\\b",
+        "captures": {
+          "1": {
+            "name": "keyword.type.cs"
+          }
+        }
       }
     }
 }
