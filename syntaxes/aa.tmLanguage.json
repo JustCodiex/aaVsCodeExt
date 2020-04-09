@@ -12,12 +12,14 @@
         "patterns": [
           { "include": "#namespace-decleration" },
           { "include": "#class-decleration" },
+          { "include": "#enum-decleration" },
           { "include": "#function-decleration" }
         ]
       },
       "class-members": {
         "patterns": [
           { "include": "#class-decleration" },
+          { "include": "#enum-decleration" },
           { "include": "#function-decleration" },
           { "include": "#constructor-decleration" }
         ]
@@ -177,6 +179,56 @@
           }
         ]
       },
+      "enum-decleration": {
+        "begin": "(?=\\benum\\b)",
+        "beginCaptures": {
+          "1": {
+            "name": "keyword.word"
+          }
+        },
+        "end": "(?<=\\})",
+        "patterns": [
+          {
+            "begin": "(?x)\n\\b(enum)\\b\\s+\n(@?[_[:alpha:]][_[:alnum:]]*)\\s*",
+            "beginCaptures": {
+              "1": {
+                "name": "keyword.other.class.cs"
+              },
+              "2": {
+                "name": "entity.name.type.class.cs"
+              }
+            },
+            "end": "(?=\\{)",
+            "patterns": [
+              {
+                "include": "#comment"
+              }
+            ]
+          },
+          {
+            "begin": "\\{",
+            "beginCaptures": {
+              "0": {
+                "name": "punctuation.curlybrace.open.cs"
+              }
+            },
+            "end": "\\}",
+            "endCaptures": {
+              "0": {
+                "name": "punctuation.curlybrace.close.cs"
+              }
+            },
+            "patterns": [
+              {
+                "include": "#function-decleration"
+              }
+            ]
+          },
+          {
+            "include": "#comment"
+          }
+        ]
+      },
       "function-decleration": {
         "begin": "(?x)\n(?<return-type>\n  (?<type-name>\n(?:\n      (?:ref\\s+(?:readonly\\s+)?)?   # ref return\n      (?:\n        (?:(?<identifier>@?[_[:alpha:]][_[:alnum:]]*)\\s*\\:\\:\\s*)? # alias-qualification\n        (?<name-and-type-args> # identifier + type arguments (if any)\n          \\g<identifier>\\s*\n          (?<type-args>\\s*<(?:[^<>]|\\g<type-args>)+>\\s*)?\n        )\n        (?:\\s*\\.\\s*\\g<name-and-type-args>)* | # Are there any more names being dotted into?\n        (?<tuple>\\s*\\((?:[^\\(\\)]|\\g<tuple>)+\\))\n      )\n      (?:\\s*\\?\\s*)? # nullable suffix?\n      (?:\\s*\\[(?:\\s*,\\s*)*\\]\\s*)* # array suffix?\n    )\n  )\\s+\n)\n(?<interface-name>\\g<type-name>\\s*\\.\\s*)?\n(\\g<identifier>)\\s*\n(<([^<>]+)>)?\\s*\n(?=\\()",
         "beginCaptures": {
@@ -197,16 +249,7 @@
             "include": "#comment"
           },
           {
-            "include": "#parenthesized-parameter-list"
-          },
-          {
-            "include": "#generic-constraints"
-          },
-          {
-            "include": "#expression-body"
-          },
-          {
-            "include": "#block"
+            "include": "#expression"
           }
         ]
       },
