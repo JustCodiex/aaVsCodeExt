@@ -10,6 +10,7 @@
     "repository": {
       "declerations": {
         "patterns": [
+          { "include": "#other-modifier" },
           { "include": "#storage-modifier" },
           { "include": "#namespace-decleration" },
           { "include": "#class-decleration" },
@@ -19,6 +20,7 @@
       },
       "class-members": {
         "patterns": [
+          { "include": "#other-modifier" },
           { "include": "#storage-modifier" },
           { "include": "#class-decleration" },
           { "include": "#enum-decleration" },
@@ -121,7 +123,7 @@
       },
       "other-modifier": {
         "name": "storage.modifier.cs",
-        "match": "(?<!\\.)\\b(new)\\b"
+        "match": "(?<!\\.)\\b(new|sealed|tagged)\\b"
       },
       "namespace-decleration": {
         "begin": "\\b(namespace)\\s+",
@@ -170,7 +172,7 @@
             "name": "keyword.word"
           }
         },
-        "end": "(?<=\\})",
+        "end": "(?<=\\})|(?=;)",
         "patterns": [
           {
             "begin": "(?x)\n\\b(class)\\b\\s+\n(@?[_[:alpha:]][_[:alnum:]]*)\\s*",
@@ -182,10 +184,13 @@
                 "name": "entity.name.type.class.cs"
               }
             },
-            "end": "(?=\\{)",
+            "end": "(?=\\{)|(?=;)",
             "patterns": [
               {
                 "include": "#comment"
+              },
+              {
+                "include": "#parenthesized-parameter-list"
               }
             ]
           },
@@ -377,6 +382,9 @@
           },
           {
             "include": "#type-builtin"
+          },
+          {
+            "include": "#type-name"
           }
         ]
       },
@@ -387,6 +395,47 @@
             "name": "keyword.type.cs"
           }
         }
+      },
+      "type-name": {
+        "patterns": [
+          {
+            "match": "(@?[_[:alpha:]][_[:alnum:]]*)\\s*(\\:\\:)",
+            "captures": {
+              "1": {
+                "name": "entity.name.type.alias.cs"
+              },
+              "2": {
+                "name": "punctuation.separator.coloncolon.cs"
+              }
+            }
+          },
+          {
+            "match": "(@?[_[:alpha:]][_[:alnum:]]*)\\s*(\\.)",
+            "captures": {
+              "1": {
+                "name": "storage.type.cs"
+              },
+              "2": {
+                "name": "punctuation.accessor.cs"
+              }
+            }
+          },
+          {
+            "match": "(\\.)\\s*(@?[_[:alpha:]][_[:alnum:]]*)",
+            "captures": {
+              "1": {
+                "name": "punctuation.accessor.cs"
+              },
+              "2": {
+                "name": "storage.type.cs"
+              }
+            }
+          },
+          {
+            "name": "storage.type.cs",
+            "match": "@?[_[:alpha:]][_[:alnum:]]*"
+          }
+        ]
       },
       "parenthesized-parameter-list": {
         "begin": "(\\()",
