@@ -43,6 +43,7 @@
       },
       "expression": {
         "patterns": [
+          { "include": "#match-expression" },
           { "include": "#literal" }
         ]
       },
@@ -577,6 +578,40 @@
       "string-character-escape": {
         "name": "constant.character.escape.cs",
         "match": "\\\\(['\"\\\\0abfnrtv]|x[0-9a-fA-F]{1,4}|U[0-9a-fA-F]{8}|u[0-9a-fA-F]{4})"
+      },
+      "match-expression": {
+        "begin": "\\b(match)",
+        "beginCaptures": {
+          "0": {
+            "name": "keyword.control.switch.cs"
+          }
+        },
+        "patterns": [
+          {
+            "include": "#comment"
+          },
+          {
+            "include": "#match-case-expression"
+          }
+        ],
+        "end": "(?<=\\})"
+      },
+      "match-case-expression": {
+        "begin": "\\b(case)",
+        "beginCaptures": {
+          "0": {
+            "name": "keyword.control.case.cs"
+          }
+        },
+        "end": "(?<=\\})|(?=,)",
+        "patterns": [
+          {
+            "include": "#comment"
+          },
+          {
+            "include": "#expression"
+          }
+        ]
       }
     }
 }
